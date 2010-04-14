@@ -1,0 +1,82 @@
+-- 
+-- Adatbázis: `syslog`
+-- 
+DROP DATABASE `syslog`;
+CREATE DATABASE `syslog`;
+USE syslog;
+
+-- --------------------------------------------------------
+
+-- 
+-- Tábla szerkezet: `cache`
+-- 
+
+DROP TABLE IF EXISTS `cache`;
+CREATE TABLE `cache` (
+  `id` varchar(20) NOT NULL default '',
+  `value` varchar(50) NOT NULL default '',
+  PRIMARY KEY  (`id`,`value`)
+) TYPE=MyISAM;
+
+-- --------------------------------------------------------
+
+-- 
+-- Tábla szerkezet: `logs`
+-- 
+
+DROP TABLE IF EXISTS `logs`;
+CREATE TABLE `logs` (
+  `host` varchar(32) default NULL,
+  `facility` varchar(10) default NULL,
+  `priority` varchar(10) default NULL,
+  `level` varchar(10) default NULL,
+  `tag` varchar(10) default NULL,
+  `date` date default NULL,
+  `time` time default NULL,
+  `program` varchar(15) default NULL,
+  `msg` text,
+  `seq` int(10) unsigned NOT NULL auto_increment,
+  PRIMARY KEY  (`seq`),
+  KEY `host` (`host`),
+  KEY `seq` (`seq`),
+  KEY `program` (`program`),
+  KEY `time` (`time`),
+  KEY `date` (`date`),
+  KEY `priority` (`priority`),
+  KEY `facility` (`facility`)
+) TYPE=MyISAM;
+
+-- --------------------------------------------------------
+
+-- 
+-- Tábla szerkezet: `sessions`
+-- 
+
+DROP TABLE IF EXISTS `sessions`;
+CREATE TABLE `sessions` (
+  `sid` varchar(128) NOT NULL default '',
+  `uid` int(4) NOT NULL default '0',
+  `host` varchar(128) NOT NULL default '',
+  `date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `sql` mediumtext NOT NULL,
+  PRIMARY KEY  (`sid`,`uid`)
+) TYPE=MyISAM;
+
+-- --------------------------------------------------------
+
+-- 
+-- Tábla szerkezet: `visited`
+-- 
+
+DROP TABLE IF EXISTS `visited`;
+CREATE TABLE `visited` (
+  `type` varchar(40) NOT NULL default '',
+  `date` date NOT NULL default '0000-00-00',
+  `time` time NOT NULL default '00:00:00'
+) TYPE=MyISAM;
+
+-- 
+-- Tbla adatok: `visited`
+-- 
+
+INSERT INTO `visited` VALUES ('log_check', '2000-01-01', '00:00:00');

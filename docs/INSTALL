@@ -1,0 +1,92 @@
+Web Log Monitor telepitesi utmutato
+-----------------------------------
+
+Ez az utmutato GNU Debian linux operaciosrendszer es mysql adatbazis
+szerverhez keszult.
+A telepites barmely mas linux/unix szeru operacios rendszeren elvegezheto.
+A wlm tamogat minden olyan sql szervert, melyet adodbn keresztul el tud erni.
+
+0. WLM Licensze:
+  GNU GPL v2.0
+
+1. A program hasznalatahoz szukseges csomagok:
+- syslog-ng
+- python2.3
+- python2.3-dev (adodb telepiteshez)
+- python2.3-libxml2
+- python2.3-libxslt1
+- Megfelelo SQL szervert tamogato csomag, pl.: python2.3-mysqldb
+- AdoDB http://adodb.sourceforge.net/#pydownload oldalrol toltheto le.
+
+2. Kicsomagolas, elokeszuletek:
+ $ tar -xvvzf wlm-0.1.0.tar.gz
+ MySql adatbazis letrehozasa.
+ $ cd wlm-0.1.0/docs
+ $ mysql -u root -p < syslog.mysql
+ Ket mysql felhasznalo letrehozasat javaslom:
+ - syslog felhasznalo tudja olvasni a syslog adatbazist
+ - syslogadmin felhasznalo tudja irni/olvasni a syslog adatbazist
+   GRANT SELECT ON `syslog` . * TO 'syslog'@'localhost' IDENTIFIED BY 'pass'
+   GRANT ALL PRIVILEGES ON `syslog` . * TO 'syslogadmin'@'localhost' IDENTIFIED BY 'admin_pass'
+
+3. Konfiguralas:
+  $ cd ../bin
+  A syslog2sql.sh symlink a nekunk megfelelo filera mutasson.
+  $ ln -sf syslog_mysql.sh syslog2sql.sh (ez az alapertelmezett)
+  $ cd ..
+  Allitsuk be az sql hozzaferest:
+  Adjuk meg a syslogadmin mysql felhasznalo beallitasait a kovetkezo fileokban:
+  - bin/syslog2sql.sh
+  - bin/syslog_rotate.py
+  Adjunk meg a syslog mysql felhasznalo beallitasait a kovetkezo fileban:
+  - web/index.py
+
+4. Telepites:
+  A program telepitesehez rendszergazda jogokkal kell rendelkeznunk:
+  # ./install.sh
+  # cat install.sh
+  
+  #!/bin/sh
+  
+  cp bin/* /usr/local/bin/
+  
+  #web telepitese
+  mkdir /usr/lib/cgi-bin/wlm
+  cp web/* /usr/lib/cgi-bin/wlm
+  
+  # init script telepitese:
+  cp etc/init.d/syslog-sql /etc/init.d/
+  cd /etc/init.d/
+  update-rc.d syslog-sql defaults
+  cd -
+
+5. Utolso simitasok:
+  Az /usr/lib/cgi-bin/wlm/default.css el kell helyezni a cgi-bin-en kivul.
+  Modositani kell a master.xsl -ben a css file helyet.
+  
+  Szukseges meg a syslog_rotate.py file elhelyezese a cronban,
+  erdemes 5-10 percenkent lefuttatni.
+  Pl.:
+  0,10,20,30,40,50 * * * *	/usr/local/bin/syslog_rotate.py
+  A script nem csak a logok koltozteteset vegzi, hanem a webes felulet
+  gyorsabb mukodese erdekeben cachet is keszit.
+  
+  Syslog-ng konfig fileba illesszuk be a docs/syslog-ng.conf tartalmat,
+  majd inditsuk ujra.
+
+6. Felhasznalt forrasok:
+  - program alapotlete a kovetkezo oldalakrol szarmazik:
+  - http://gentoo-wiki.com/HOWTO_setup_PHP-Syslog-NG
+  - http://www.vermeer.org/
+  - http://sourceforge.net/projects/php-syslog-ng/
+
+7. Elerhetoseg:
+  
+  Web oldal:
+  http://openproject.hu/wlm/
+  
+  Forum:
+  http://openproject.hu/forum/wlm/
+  
+  E-mail:
+  york@openproject.hu 

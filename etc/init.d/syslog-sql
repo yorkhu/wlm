@@ -1,0 +1,36 @@
+#!/bin/bash
+#
+
+NAME=syslog2sql.sh
+DAEMON=/usr/local/bin/$NAME
+PIDFILE=/var/run/$NAME.pid
+case "$1" in
+  start)
+	echo -n "Starting server: $NAME"
+	start-stop-daemon --start --pidfile $PIDFILE -b -m --exec $DAEMON
+  ;;
+
+  stop)
+	echo -n "Stopping server: $NAME"
+	start-stop-daemon --stop --pidfile $PIDFILE --oknodo
+  ;;
+
+  reload | force-reload | restart)
+    $0 stop
+    sleep 2
+    $0 start
+  ;;
+
+  *)
+	echo "Usage: /etc/init.d/$NAME {start|stop|reload|force-reload|restart}"
+	exit 1
+  ;;
+esac
+
+if [ $? -eq 0 ]; then
+        echo .
+        exit 0
+else
+        echo " failed"
+        exit 1
+fi
