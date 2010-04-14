@@ -11,17 +11,17 @@ A wlm tamogat minden olyan sql szervert, melyet adodbn keresztul el tud erni.
 
 1. A program hasznalatahoz szukseges csomagok:
 - syslog-ng
-- python2.3
-- python2.3-dev (adodb telepiteshez)
-- python2.3-libxml2
-- python2.3-libxslt1
+- php 5.2.x
+- drupal 6.x
+- python2.3 or new
+- python2.3-dev or new (adodb telepiteshez)
 - Megfelelo SQL szervert tamogato csomag, pl.: python2.3-mysqldb
 - AdoDB http://adodb.sourceforge.net/#pydownload oldalrol toltheto le.
 
 2. Kicsomagolas, elokeszuletek:
- $ tar -xvvzf wlm-0.1.0.tar.gz
+ $ tar -xvvzf wlm-0.2.0.tar.gz
  MySql adatbazis letrehozasa.
- $ cd wlm-0.1.0/docs
+ $ cd wlm-0.2.0/docs
  $ mysql -u root -p < syslog.mysql
  Ket mysql felhasznalo letrehozasat javaslom:
  - syslog felhasznalo tudja olvasni a syslog adatbazist
@@ -50,10 +50,6 @@ A wlm tamogat minden olyan sql szervert, melyet adodbn keresztul el tud erni.
   
   cp bin/* /usr/local/bin/
   
-  #web telepitese
-  mkdir /usr/lib/cgi-bin/wlm
-  cp web/* /usr/lib/cgi-bin/wlm
-  
   # init script telepitese:
   cp etc/init.d/syslog-sql /etc/init.d/
   cd /etc/init.d/
@@ -61,16 +57,13 @@ A wlm tamogat minden olyan sql szervert, melyet adodbn keresztul el tud erni.
   cd -
 
 5. Utolso simitasok:
-  Az /usr/lib/cgi-bin/wlm/default.css el kell helyezni a cgi-bin-en kivul.
-  Modositani kell a master.xsl -ben a css file helyet.
-  
   Szukseges meg a syslog_rotate.py file elhelyezese a cronban,
   erdemes 5-10 percenkent lefuttatni.
   Pl.:
   0,10,20,30,40,50 * * * *	/usr/local/bin/syslog_rotate.py
   A script nem csak a logok koltozteteset vegzi, hanem a webes felulet
   gyorsabb mukodese erdekeben cachet is keszit.
-  
+
   Syslog-ng konfig fileba illesszuk be a docs/syslog-ng.conf tartalmat,
   majd inditsuk ujra.
 
@@ -81,12 +74,9 @@ A wlm tamogat minden olyan sql szervert, melyet adodbn keresztul el tud erni.
   - http://sourceforge.net/projects/php-syslog-ng/
 
 7. Elerhetoseg:
-  
+
   Web oldal:
   http://openproject.hu/wlm/
-  
+
   Forum:
   http://openproject.hu/forum/wlm/
-  
-  E-mail:
-  york@openproject.hu 
