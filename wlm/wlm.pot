@@ -1,0 +1,289 @@
+# LANGUAGE translation of Drupal (wlm.module)
+# Copyright Tamas Pinter <york@openproject.hu>
+# Generated from file: wlm.module,v 0.5 2006-03-25 19:02+0100 york
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.5\n"
+"POT-Creation-Date: 2006-03-25 19:02+0100\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: Tamas Pinter <york@openproject.hu>\n"
+"Language-Team: Tamas Pinter <york@openproject.hu>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: wlm.module:28;50
+msgid "Web Log Monitor"
+msgstr ""
+
+#: wlm.module:56;179
+msgid "Auto Log"
+msgstr ""
+
+#: wlm.module:61;181;789;883;1419
+msgid "Search"
+msgstr ""
+
+#: wlm.module:66;886
+msgid "Log"
+msgstr ""
+
+#: wlm.module:72;185
+msgid "Search template"
+msgstr ""
+
+#: wlm.module:77
+msgid "Add serach template"
+msgstr ""
+
+#: wlm.module:83
+msgid "Edit serach template"
+msgstr ""
+
+#: wlm.module:89
+msgid "Delete serach template"
+msgstr ""
+
+#: wlm.module:95
+msgid "Old Logs Search"
+msgstr ""
+
+#: wlm.module:100;1346
+msgid "Old Logs"
+msgstr ""
+
+#: wlm.module:121
+msgid "Sql Server Settings"
+msgstr ""
+
+#: wlm.module:131
+msgid "Type"
+msgstr ""
+
+#: wlm.module:138;245;587;710;891
+msgid "Host"
+msgstr ""
+
+#: wlm.module:145
+msgid "Port"
+msgstr ""
+
+#: wlm.module:152
+msgid "Database name"
+msgstr ""
+
+#: wlm.module:159
+msgid "Username"
+msgstr ""
+
+#: wlm.module:166
+msgid "Password"
+msgstr ""
+
+#: wlm.module:180
+msgid "Automatic log viewer..."
+msgstr ""
+
+#: wlm.module:182
+msgid "Search syslog..."
+msgstr ""
+
+#: wlm.module:183
+msgid "Old log search"
+msgstr ""
+
+#: wlm.module:184
+msgid "Search old syslog..."
+msgstr ""
+
+#: wlm.module:186
+msgid "Use and create search template..."
+msgstr ""
+
+#: wlm.module:237
+msgid "Log Type"
+msgstr ""
+
+#: wlm.module:255;598;713;894
+msgid "Facility"
+msgstr ""
+
+#: wlm.module:265;711;892
+msgid "Priority"
+msgstr ""
+
+#: wlm.module:276;284;712;893
+msgid "Date"
+msgstr ""
+
+#: wlm.module:299
+msgid "Time"
+msgstr ""
+
+#: wlm.module:315
+msgid "Search message"
+msgstr ""
+
+#: wlm.module:324;343;362
+msgid "Not"
+msgstr ""
+
+#: wlm.module:376
+msgid "Other"
+msgstr ""
+
+#: wlm.module:384;621
+msgid "Records per page"
+msgstr ""
+
+#: wlm.module:392
+msgid "Search order"
+msgstr ""
+
+#: wlm.module:400
+msgid "Format"
+msgstr ""
+
+#: wlm.module:570;571;760;761;771;1009;1010;1023;1141;1142;1170;1386;1387;1397
+msgid "All"
+msgstr ""
+
+#: wlm.module:579
+msgid "Auto Log Settings"
+msgstr ""
+
+#: wlm.module:607
+msgid "Minute"
+msgstr ""
+
+#: wlm.module:607;608;608;609;609
+msgid "minute"
+msgstr ""
+
+#: wlm.module:612
+msgid "Refresh Time"
+msgstr ""
+
+#: wlm.module:626
+msgid "Refresh"
+msgstr ""
+
+#: wlm.module:709;890
+msgid "Seq"
+msgstr ""
+
+#: wlm.module:714;895
+msgid "Message"
+msgstr ""
+
+#: wlm.module:780;1032;1179;1406
+msgid "And"
+msgstr ""
+
+#: wlm.module:780;1032;1179;1406
+msgid "Or"
+msgstr ""
+
+#: wlm.module:785
+msgid "ASC"
+msgstr ""
+
+#: wlm.module:785
+msgid "DESC"
+msgstr ""
+
+#: wlm.module:786
+msgid "Wrap On"
+msgstr ""
+
+#: wlm.module:786
+msgid "Wrap Off"
+msgstr ""
+
+#: wlm.module:786
+msgid "Text Mode"
+msgstr ""
+
+#: wlm.module:951
+msgid "search"
+msgstr ""
+
+#: wlm.module:952
+msgid "edit"
+msgstr ""
+
+#: wlm.module:953
+msgid "delete"
+msgstr ""
+
+#: wlm.module:968
+msgid "Create new search template."
+msgstr ""
+
+#: wlm.module:971;1042;1189
+msgid "Label"
+msgstr ""
+
+#: wlm.module:972
+msgid "User"
+msgstr ""
+
+#: wlm.module:973;1060;1208
+msgid "Public"
+msgstr ""
+
+#: wlm.module:1011;1143
+msgid "Today"
+msgstr ""
+
+#: wlm.module:1018;1150
+msgid "Day"
+msgstr ""
+
+#: wlm.module:1062;1210
+msgid "No"
+msgstr ""
+
+#: wlm.module:1062;1210
+msgid "Yes"
+msgstr ""
+
+#: wlm.module:1067;1215
+msgid "Save"
+msgstr ""
+
+#: wlm.module:1275
+msgid "Are you sure you want to delete %title?"
+msgstr ""
+
+#: wlm.module:1276
+msgid "This action cannot be undone."
+msgstr ""
+
+#: wlm.module:1277
+msgid "Delete"
+msgstr ""
+
+#: wlm.module:1277
+msgid "Cancel"
+msgstr ""
+
+#: wlm.module:39
+msgid "access wlm"
+msgstr ""
+
+#: wlm.module:39
+msgid "create template wlm"
+msgstr ""
+
+#: wlm.module:39
+msgid "administer wlm"
+msgstr ""
+
+#: wlm.module:0
+msgid "wlm"
+msgstr ""
+

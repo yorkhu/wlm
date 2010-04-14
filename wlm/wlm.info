@@ -1,0 +1,6 @@
+; $Id: WLM.info,v 0.1 2009/01/02 13:21:54 martoni Exp $
+name = WLM
+description = Web Log Monitor.
+core = 6.x
+dependencies[] = sysadminmenu
+

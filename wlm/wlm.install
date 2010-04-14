@@ -1,0 +1,74 @@
+<?php
+// $Id: wlm.install,v 2.0 2008/01/16 16:58:34 york Exp $
+/**
+ * Implementation of hook_install().
+ */
+function wlm_install() {
+	drupal_install_schema('wlm');
+}
+
+/**
+ * Implementation of hook_enable().
+ */
+//function wlm_enable() {
+//}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function wlm_uninstall() {
+	drupal_uninstall_schema('wlm');
+}
+
+/**
+ * Implementation of hook_schema().
+ * @return array ticket database schema
+ */
+function wlm_schema() {
+	$schema['wlm_search_template'] = array(
+		'description' => t('The wlm search template.'),
+		'fields' => array(
+			'wid' => array(
+				'description' => t('The identifier of a wlm search template.'),
+				'type' => 'serial',
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+			),
+
+			'uid' => array(
+				'description' => t('The user identifier of a wlm search template'),
+				'type' => 'int',
+				'size' => 'tiny',
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+				'default' => 0,
+			),
+
+			'label' => array(
+				'description' => t('Search template label.'),
+				'type' => 'varchar',
+				'length' => 50,
+				'not null' => TRUE,
+				'default' => 'A4',
+			),
+
+			'action' => array(
+				'type' => 'text',
+				'not null' => TRUE,
+				'size' => 'normal',
+				'description' => t('Serach template.'),
+			),
+
+			'public' => array(
+				'description' => t('Public or privat search template.'),
+				'type' => 'int',
+				'size' => 'tiny',
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+				'default' => 0,
+			),
+		),
+		'primary key' => array('wid'),
+	);
+	return $schema;
+}

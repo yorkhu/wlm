@@ -1,0 +1,291 @@
+# translation of wlm-module-hu.po to Hungarian
+# LANGUAGE translation of Drupal (wlm.module)
+# Copyright Tamas Pinter <york@openproject.hu>
+# Generated from file: wlm.module,v 0.5 2006-03-25 19:02+0100 york
+#
+# Tamas Pinter <york@openproject.hu>, 2006.
+msgid ""
+msgstr ""
+"Project-Id-Version: wlm-module-hu\n"
+"POT-Creation-Date: 2006-03-25 19:02+0100\n"
+"PO-Revision-Date: 2006-03-30 19:07+0200\n"
+"Last-Translator: Tamas Pinter <york@openproject.hu>\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: KBabel 1.11.2\n"
+
+#: wlm.module:28;50
+msgid "Web Log Monitor"
+msgstr "Web Log Monitor"
+
+#: wlm.module:56;179
+msgid "Auto Log"
+msgstr "Autómatikus Napló"
+
+#: wlm.module:61;181;789;883;1419
+msgid "Search"
+msgstr "Keresés"
+
+#: wlm.module:66;886
+msgid "Log"
+msgstr "Napló"
+
+#: wlm.module:72;185
+msgid "Search template"
+msgstr "Keresés sablon"
+
+#: wlm.module:77
+msgid "Add serach template"
+msgstr "Keresés sablon hozzáadás"
+
+#: wlm.module:83
+msgid "Edit serach template"
+msgstr "Keresés sablon szerkesztés"
+
+#: wlm.module:89
+msgid "Delete serach template"
+msgstr "Keresés sablon törlés"
+
+#: wlm.module:95
+msgid "Old Logs Search"
+msgstr "Keresés a Régi Naplókban"
+
+#: wlm.module:100;1346
+msgid "Old Logs"
+msgstr "Régi Naplók"
+
+#: wlm.module:121
+msgid "Sql Server Settings"
+msgstr "Sql Szerver Beállítás"
+
+#: wlm.module:131
+msgid "Type"
+msgstr "Típus"
+
+#: wlm.module:138;245;587;710;891
+msgid "Host"
+msgstr "Hoszt"
+
+#: wlm.module:145
+msgid "Port"
+msgstr "Port"
+
+#: wlm.module:152
+msgid "Database name"
+msgstr "Adatbázis név"
+
+#: wlm.module:159
+msgid "Username"
+msgstr "Felhasználói név"
+
+#: wlm.module:166
+msgid "Password"
+msgstr "Jelszó"
+
+#: wlm.module:180
+msgid "Automatic log viewer..."
+msgstr "Autómatikus napló néző..."
+
+#: wlm.module:182
+msgid "Search syslog..."
+msgstr "Keresés a rendszer naplóban..."
+
+#: wlm.module:183
+msgid "Old logs search"
+msgstr "Keresés a régi naplókban"
+
+#: wlm.module:184
+msgid "Search old syslog..."
+msgstr "Keresés a régi rendszer naplókban..."
+
+#: wlm.module:186
+msgid "Use and create search template..."
+msgstr ""
+
+#: wlm.module:237
+msgid "Log Type"
+msgstr "Napló Típus"
+
+#: wlm.module:255;598;713;894
+msgid "Facility"
+msgstr "Adottság"
+
+#: wlm.module:265;711;892
+msgid "Priority"
+msgstr "Prioritás"
+
+#: wlm.module:276;284;712;893
+msgid "Date"
+msgstr "Dátum"
+
+#: wlm.module:299
+msgid "Time"
+msgstr "Idő"
+
+#: wlm.module:315
+msgid "Search message"
+msgstr "Keresett üzenet"
+
+#: wlm.module:324;343;362
+msgid "Not"
+msgstr "Nem"
+
+#: wlm.module:376
+msgid "Other"
+msgstr "Egyéb"
+
+#: wlm.module:384;621
+msgid "Records per page"
+msgstr "Elem per oldal"
+
+#: wlm.module:392
+msgid "Search order"
+msgstr "Rendezés iránya"
+
+#: wlm.module:400
+msgid "Format"
+msgstr "Formátum"
+
+#: wlm.module:570;571;760;761;771;1009;1010;1023;1141;1142;1170;1386;1387;1397
+msgid "All"
+msgstr "Összes"
+
+#: wlm.module:579
+msgid "Auto Log Settings"
+msgstr "Autómatikus Napló Beállítás"
+
+#: wlm.module:607
+msgid "Minute"
+msgstr "Perc"
+
+#: wlm.module:607;608;608;609;609
+msgid "minute"
+msgstr "perc"
+
+#: wlm.module:612
+msgid "Refresh Time"
+msgstr "Frissitési Idő"
+
+#: wlm.module:626
+msgid "Refresh"
+msgstr "Frissít"
+
+#: wlm.module:709;890
+msgid "Seq"
+msgstr "Seq"
+
+#: wlm.module:714;895
+msgid "Message"
+msgstr "Üzenet"
+
+#: wlm.module:780;1032;1179;1406
+msgid "And"
+msgstr "És"
+
+#: wlm.module:780;1032;1179;1406
+msgid "Or"
+msgstr "Vagy"
+
+#: wlm.module:785
+msgid "ASC"
+msgstr "Növekvő"
+
+#: wlm.module:785
+msgid "DESC"
+msgstr "Csökkenő"
+
+#: wlm.module:786
+msgid "Wrap On"
+msgstr "Sor Törés Be"
+
+#: wlm.module:786
+msgid "Wrap Off"
+msgstr "Sor Törés Ki"
+
+#: wlm.module:786
+msgid "Text Mode"
+msgstr "Szöveges mód"
+
+#: wlm.module:951
+msgid "search"
+msgstr "keresés"
+
+#: wlm.module:952
+msgid "edit"
+msgstr "szerkeszt"
+
+#: wlm.module:953
+msgid "delete"
+msgstr "töröl"
+
+#: wlm.module:968
+msgid "Create new search template."
+msgstr "Új keresés sablon készítés."
+
+#: wlm.module:971;1042;1189
+msgid "Label"
+msgstr "Elnevezés"
+
+#: wlm.module:972
+msgid "User"
+msgstr "Felhasználó"
+
+#: wlm.module:973;1060;1208
+msgid "Public"
+msgstr "Publikus"
+
+#: wlm.module:1011;1143
+msgid "Today"
+msgstr "Ma"
+
+#: wlm.module:1018;1150
+msgid "Day"
+msgstr "Nap"
+
+#: wlm.module:1062;1210
+msgid "No"
+msgstr "Nem"
+
+#: wlm.module:1062;1210
+msgid "Yes"
+msgstr "Igen"
+
+#: wlm.module:1067;1215
+msgid "Save"
+msgstr "Ment"
+
+#: wlm.module:1275
+msgid "Are you sure you want to delete %title?"
+msgstr "„%title” biztosan törölhető?"
+
+#: wlm.module:1276
+msgid "This action cannot be undone."
+msgstr "A művelet nem visszavonható."
+
+#: wlm.module:1277
+msgid "Delete"
+msgstr "Töröl"
+
+#: wlm.module:1277
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: wlm.module:39
+msgid "access wlm"
+msgstr "wlm elérése"
+
+#: wlm.module:39
+msgid "create template wlm"
+msgstr "wlm sablon készítés"
+
+#: wlm.module:39
+msgid "administer wlm"
+msgstr "wlm adminisztrációja"
+
+#: wlm.module:0
+msgid "wlm"
+msgstr "wlm"
+

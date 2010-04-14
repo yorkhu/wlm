@@ -1,0 +1,90 @@
+/* WLM CSS */
+
+/* FORM */
+#wlm-select .form-item, #wlm-other .form-item, #wlm-dates .form-item, #wlm-txt .form-item, #wlm-txt .option {
+	display: inline;
+}
+
+#wlm-select select {
+	width: 8em;
+	height: 7em;
+
+	display: inline;
+}
+
+.wlm-left, #wlm-dates .wlm-date1, #wlm-dates .wlm-date2 {
+	float: left;
+	margin-right: 4em;
+}
+
+#wlm-dates .wlm-date1, #wlm-dates .wlm-date2 {
+	margin-right: 2em;
+}
+
+#wlm-dates .wlm-date2 {
+	margin-top: 16px;
+}
+
+
+#wlm-dates .sep {
+	font-weight: bold;
+	margin-left: 1em;
+}
+
+
+#wlm-txt .wlm-line {
+	margin-bottom: 1em;
+}
+
+/* TABLE */
+td.wlm_seq, td.wlm_host, td.wlm_date, td.wlm_facility, td.wlm_msg1 {
+	white-space: nowrap;
+}
+#wlm_log {
+/*	overflow: auto;*/
+}
+
+.wlm_priority_info, .wlm_priority_debug, .wlm_priority_notice, .wlm_priority_warning, .wlm_priority_err, .wlm_priority_crit, .wlm_priority_alert {
+	text-align: center;
+	text-decoration: none;
+}
+
+.wlm_priority_info {
+	background-color: #EEE;
+}
+
+.wlm_priority_debug {
+	background-color: #C1FFC1;
+}
+
+.wlm_priority_notice {
+	background-color: #CAff70;
+}
+
+.wlm_priority_warning {
+	background-color: #FFFF00;
+}
+
+.wlm_priority_err {
+	background-color: #FFA500;
+}
+
+.wlm_priority_crit {
+	background-color: #FF4500;
+}
+
+.wlm_priority_alert {
+	background-color: #FF0000;
+}
+
+#wlm-old .wlm-left {
+	padding-bottom: 15px;
+}
+
+
+
+
+
+
+
+

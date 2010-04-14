@@ -1,0 +1,19 @@
+A wlm drupal telepitesi utmutatoja:
+
+1. A program hasznalatahoz szukseges csomagok:
+  - Drupal 6.8 vagy ujabb
+
+2. A modul bealitasa drupal alatt:
+  http://localhost/drupal/?q=admin/settings/wlm
+  Itt kell beallitani a log szerver elerhetoseget.
+
+3. Elerhetoseg:
+  
+  Web oldal:
+  http://openproject.hu/wlm/
+  
+  Forum:
+  http://openproject.hu/forum/wlm/
+  
+  E-mail:
+  york () openproject _ hu 
