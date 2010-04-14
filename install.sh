@@ -2,10 +2,7 @@
 
 cp bin/* /usr/local/bin/
 
-#web telepitese
-mkdir /usr/lib/cgi-bin/wlm
-cp web/* /usr/lib/cgi-bin/wlm
-
+# debian base system
 # init script telepitese:
 cp etc/init.d/syslog-sql /etc/init.d/
 cd /etc/init.d/
