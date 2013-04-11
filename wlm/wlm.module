@@ -482,8 +482,6 @@ function wlm_log() {
 		$build['wlm_log'] = array(
 		  '#theme' => 'wlm_log',
 		  '#rows' => $rows,
-		  '#log_per_page' => $action['limit'],
-		  '#format' => $action['format'],
 		);
 		return $build;
 	} else {
@@ -1046,20 +1044,7 @@ function theme_wlm_autolog($variables) {
 	if ($refresh) {
 		drupal_add_http_header('Refresh', $refresh.';');
 
-		$output .= '<div id="wlm_log">';
-
-		$header = array(
-			array('data' => t('Seq')),
-			array('data' => t('Host')),
-			array('data' => t('Priority')),
-			array('data' => t('Date')),
-			array('data' => t('Facility')),
-			array('data' => t('Message')),
-		);
-
-		$output .= theme('table', array('header' => $header, 'rows' => $rows, 'empty' => t('No content available.')));
-
-		$output .= '</div>';
+		$output .= _wlm_get_table($rows, 'wlm_log');
 	}
 
 	return $output;
@@ -1076,15 +1061,9 @@ function theme_wlm_template($variables) {
 	$output .= '<ul>';
 	$output .= ' <li>'. l(t('Create new search template.'), "wlm/template/add") .'</li>';
 	$output .= '</ul>';
-	$output .= '<div id="wlm_template">';
-	$header = array(
-		array('data' => t('Label')),
-		array('data' => t('User')),
-		array('data' => t('Public')),
-		array('data' => t('Operations'), 'colspan' => '3'),
-	);
-	$output .= theme('table', array('header' => $header, 'rows' => $rows, 'empty' => t('No content available.')));
-	$output .= '</div>';
+
+	$output .= _wlm_get_table($rows, 'wlm_template');
+
 	return $output;
 }  // function theme_wlm_template()
 
@@ -1094,22 +1073,11 @@ function theme_wlm_template($variables) {
  */
 function theme_wlm_log($variables) {
 	$rows = $variables['rows'];
-	$log_per_page = $variables['log_per_page'];
-	$format = $variables['format'];
 
-	$output = '';
-	$output .= '<div id="wlm_log">';
-	$header = array(
-		array('data' => t('Seq')),
-		array('data' => t('Host')),
-		array('data' => t('Priority')),
-		array('data' => t('Date')),
-		array('data' => t('Facility')),
-		array('data' => t('Message')),
-	);
-	$output .= theme('table', array('header' => $header, 'rows' => $rows, 'empty' => t('No content available.')));
-	$output .= '</div>';
+	$output = _wlm_get_table($rows, 'wlm_log');
+
 	$output .= theme('pager');
+
 	return $output;
 }  // function theme_wlm_log()
 
@@ -1376,6 +1344,37 @@ function _wlm_get_form($form_values, $def) {
 	);
 	return $form;
 } // function _wlm_get_form()
+
+
+/**
+ *
+ */
+function _wlm_get_table($rows, $id) {
+	$output = '<div id="'.$id.'">';
+
+	if ($id == 'wlm_template') {
+		$header = array(
+			array('data' => t('Label')),
+			array('data' => t('User')),
+			array('data' => t('Public')),
+			array('data' => t('Operations'), 'colspan' => '3'),
+		);
+	} elseif ($id == 'wlm_log') {
+		$header = array(
+			array('data' => t('Seq')),
+			array('data' => t('Host')),
+			array('data' => t('Priority')),
+			array('data' => t('Date')),
+			array('data' => t('Facility')),
+			array('data' => t('Message')),
+		);
+	}
+
+	$output .= theme('table', array('header' => $header, 'rows' => $rows, 'empty' => t('No content available.')));
+	$output .= '</div>';
+
+	return $output;
+}
 
 
 /**
