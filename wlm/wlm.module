@@ -228,9 +228,11 @@ function wlm_all() {
 function wlm_autolog_page() {
 	$links = func_get_args();
 	$rows = array();
-
-	$def['host'] = 'all';	$def['facility'] = 'all';	$def['rtime'] = '60';	$def['limit'] = '25';
-		$refresh = 0;
+	$def['host'] = 'all';
+	$def['facility'] = 'all';
+	$def['rtime'] = '60';
+	$def['limit'] = '25';
+	$refresh = 0;
 
 	if (count($links)) {
 		$def = _wlm_get_default($links, $def);
@@ -238,16 +240,14 @@ function wlm_autolog_page() {
 	}
 
 	if ($refresh) {
-		$params = array();
-
 		// Kapcsolodas az SQL szerverhez
 		db_set_active('wlm');
 
 		$query = db_select('logs', 'l')->fields('l');
 
-		if ( ($def['host'] != 'all') || ($def['facility'] != 'all') ) {
+		if ($def['host'] != 'all' || $def['facility'] != 'all') {
 			if ($def['host'] != 'all') {
-				if ( is_array($def['host']) ) {
+				if (is_array($def['host'])) {
 					$db_or = db_or();
 					foreach ($def['host'] as $element) {
 						$db_or->condition('host', $element);
@@ -258,7 +258,7 @@ function wlm_autolog_page() {
 				}
 			}
 			if ($def['facility'] != 'all') {
-				if ( is_array($def['facility']) ) {
+				if (is_array($def['facility'])) {
 					$db_or = db_or();
 					foreach ($def['facility'] as $element) {
 						$db_or->condition('facility', $element);
@@ -270,24 +270,26 @@ function wlm_autolog_page() {
 			}
 		}
 
-		$query->orderBy('seq', 'DESC');
+		$query
+			->range(0, $def['limit'])
+			->orderBy('seq', 'DESC');
 		$result = $query->execute();
 
 		// Vissza valtas az alapertelmezett SQL szerverhez
 		db_set_active();
 
+		print_r($query->__toString());
+
 		foreach ($result as $row) {
 			$rows[] = array(
 				array('data' => $row->seq, 'class' => 'wlm_seq'),
 				array('data' => $row->host, 'class' => 'wlm_host'),
-				array('data' => $row->priority, 'class' => 'wlm_priority_'.$row['priority']),
+				array('data' => $row->priority, 'class' => 'wlm_priority_'.$row->priority),
 				array('data' => $row->date.' '.$row->time, 'class' => 'wlm_date'),
 				array('data' => $row->facility, 'class' => 'wlm_facility'),
 				array('data' => htmlspecialchars($row->msg, ENT_QUOTES, 'UTF-8'), 'class' => 'wlm_msg1'),
 			);
 		}
-	} else {
-		$rows = '';
 	}
 
 	$build['wlm_autolog_page'] = array(
@@ -353,9 +355,12 @@ function wlm_autolog_form($form, &$form_state, $def, $refresh) {
 		'#suffix' => '</div></div>',
 	);
 
-	$form_values['rtime']['30'] = '0.5 '.t('Minute');	$form_values['rtime']['60'] = '01 '.t('minute');
-	$form_values['rtime']['120'] = '02 '.t('minute');	$form_values['rtime']['300'] = '05 '.t('minute');
-	$form_values['rtime']['300'] = '10 '.t('minute');	$form_values['rtime']['600'] = '20 '.t('minute');
+	$form_values['rtime']['30'] = '30 '.t('seconds');
+	$form_values['rtime']['60'] = '1 '.t('minute');
+	$form_values['rtime']['120'] = '2 '.t('minutes');
+	$form_values['rtime']['300'] = '5 '.t('minutes');
+	$form_values['rtime']['600'] = '10 '.t('minutes');
+	$form_values['rtime']['1200'] = '20 '.t('minutes');
 	$form['auto']['rtime'] = array(
 		'#type' => 'select',
 		'#title' => t('Refresh Time'),
@@ -373,7 +378,10 @@ function wlm_autolog_form($form, &$form_state, $def, $refresh) {
 		'#required' => FALSE,
 	);
 
-	$form['submit'] = array('#type' => 'submit', '#value' => t('Refresh'));
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => t('Refresh')
+	);
 
 	return $form;
 } // function wlm_autolog_form()
@@ -1147,7 +1155,7 @@ function _wlm_get_link($def, $values) {
 	$link = '';
 	$keys = array("host", "facility", "priority", "date", "date2", "time", "time2",
 								"msg1_not", "msg1", "msg2_op", "msg2_not", "msg2", "msg3_op", "msg3_not", "msg3",
-								"limit", "orderby", "format");
+								"rtime", "limit", "orderby", "format");
 	foreach ($keys as $key) {
 		if ( is_array($values[$key]) ) {
 			if ( !(($values[$key][0] == '*') || ($values[$key][0] == 'all')) && ($values[$key] != '') ) {
