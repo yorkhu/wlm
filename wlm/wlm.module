@@ -441,11 +441,15 @@ function wlm_search_page($form, &$form_state) {
 
 	$form_values['limits'] = array(25 => 25, 50 => 50, 100 => 100, 250 => 250, 500 => 500, 1000 => 1000);
 
-	$form_values['orderby']['ASC'] = t('ASC');	$form_values['orderby']['DESC'] = t('DESC');
+	$form_values['orderby']['ASC'] = t('ASC');
+	$form_values['orderby']['DESC'] = t('DESC');
 	$form_values['format'] = array(t("Wrap On"), t("Wrap Off"), t("Text Mode"));
 
 	$form = _wlm_get_form($form_values, $def);
-	$form['submit'] = array('#type' => 'submit', '#value' => t('Search'));
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => t('Search'),
+	);
 
 	return $form;
 }  // function wlm_search_page()
@@ -469,9 +473,9 @@ function wlm_log() {
 	$links = func_get_args();
 	$action = _wlm_get_default($links);
 
-	if ( ($action['host'] != '') && (count($links)) ) {
+	if ($action['host'] != '' && count($links)) {
 		$bc = drupal_get_breadcrumb();
-		$bc[] = l( t('Search'), 'wlm/search'.substr($_GET['q'], 7) );
+		$bc[] = l(t('Search'), 'wlm/search'.substr($_GET['q'], 7));
 		drupal_set_breadcrumb($bc);
 
 		$result = _wlm_url2sql($action, 'logs');
@@ -517,7 +521,7 @@ function wlm_oldlogsearch() {
 	while ($row = $result->fetchAssoc()) {
 		$old = substr(reset($row), 6);
 
-		if ( !empty($old) ) {
+		if (!empty($old)) {
 			$old_db[] = $old;
 		}
 	}
@@ -577,7 +581,8 @@ function wlm_oldlogsearch_form($form, &$form_state, $db_name) {
 
 		$form_values['limits'] = array(25 => 25, 50 => 50, 100 => 100, 250 => 250, 500 => 500, 1000 => 1000);
 
-		$form_values['orderby']['ASC'] = t('ASC');	$form_values['orderby']['DESC'] = t('DESC');
+		$form_values['orderby']['ASC'] = t('ASC');
+		$form_values['orderby']['DESC'] = t('DESC');
 		$form_values['format'] = array(t("Wrap On"), t("Wrap Off"), t("Text Mode"));
 
 		$form = _wlm_get_form($form_values, $def);
@@ -585,7 +590,10 @@ function wlm_oldlogsearch_form($form, &$form_state, $db_name) {
 			'#type' => 'value',
 			'#value' => $db_name,
 		);
-		$form['submit'] = array('#type' => 'submit', '#value' => t('Search'));
+		$form['submit'] = array(
+			'#type' => 'submit',
+			'#value' => t('Search')
+		);
 
 		return $form;
 	}
@@ -611,11 +619,11 @@ function wlm_oldlog() {
 	$action = _wlm_get_default($links);
 	$db_name = $links[0];
 
-	if ($db_name && $action['host'] != '' && count($links) ) {
+	if ($db_name && $action['host'] != '' && count($links)) {
 
 		$bc = drupal_get_breadcrumb();
-		$bc[] = l( t('Old Logs Search'), 'wlm/oldlogsearch' );
-		$bc[] = l( t('Search'), 'wlm/oldlogsearch/'.substr($_GET['q'], 11) );
+		$bc[] = l(t('Old Logs Search'), 'wlm/oldlogsearch');
+		$bc[] = l(t('Search'), 'wlm/oldlogsearch/'.substr($_GET['q'], 11));
 		drupal_set_breadcrumb($bc);
 
 		$result = _wlm_url2sql($action, 'logs_'.$db_name);
@@ -727,7 +735,6 @@ function wlm_template_add($form, &$form_state) {
 		$form_values[$row->id][$row->value] = $row->value;
 	}
 
-
 	for ($i = -1; $i >= -31; $i--) {
 		$form_values['date'][$i] = $i.' '.t('Day');
 	}
@@ -772,12 +779,15 @@ function wlm_template_add($form, &$form_state) {
 			'#type' => 'select',
 			'#title' => t('Public'),
 			'#default_value' => '',
-			'#options' => array( t('No'), t('Yes') ),
+			'#options' => array(t('No'), t('Yes')),
 			'#prefix' => '<div class="wlm-left">',
 			'#suffix' => '</div>',
 		);
 	}
-	$form['submit'] = array('#type' => 'submit', '#value' => t('Save'));
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => t('Save'),
+	);
 
 	return $form;
 } // function wlm_template_add()
@@ -886,7 +896,8 @@ function wlm_template_edit($form, &$form_state, $wid) {
 
 		$form_values['limits'] = array(25 => 25, 50 => 50, 100 => 100, 250 => 250, 500 => 500, 1000 => 1000);
 
-		$form_values['orderby']['ASC'] = t('ASC');	$form_values['orderby']['DESC'] = t('DESC');
+		$form_values['orderby']['ASC'] = t('ASC');
+		$form_values['orderby']['DESC'] = t('DESC');
 		$form_values['format'] = array(t("Wrap On"), t("Wrap Off"), t("Text Mode"));
 
 		$form['desc'] = array(
@@ -922,7 +933,10 @@ function wlm_template_edit($form, &$form_state, $wid) {
 				'#suffix' => '</div>',
 			);
 		}
-		$form['submit'] = array('#type' => 'submit', '#value' => t('Save'));
+		$form['submit'] = array(
+			'#type' => 'submit',
+			'#value' => t('Save'),
+		);
 
 		return $form;
 	} else {
