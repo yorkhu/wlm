@@ -232,14 +232,14 @@ function wlm_autolog_page() {
 	$def['facility'] = 'all';
 	$def['rtime'] = '60';
 	$def['limit'] = '25';
-	$refresh = 0;
+	$def['refresh'] = FALSE;
 
 	if (count($links)) {
 		$def = _wlm_get_default($links, $def);
-		$refresh = $def['rtime'];
+		$def['refresh'] = TRUE;
 	}
 
-	if ($refresh) {
+	if ($def['refresh']) {
 		// Kapcsolodas az SQL szerverhez
 		db_set_active('wlm');
 
@@ -284,8 +284,8 @@ function wlm_autolog_page() {
 	$build['wlm_autolog_page'] = array(
 	  '#theme' => 'wlm_autolog',
 	  '#rows' => $rows,
-	  '#refresh' => $refresh,
-	  '#form' => drupal_get_form('wlm_autolog_form', $def, $refresh),
+	  '#refresh' => $def,
+	  '#form' => drupal_get_form('wlm_autolog_form', $def),
 	);
 	return $build;
 } // function wlm_autolog_page()
@@ -294,7 +294,7 @@ function wlm_autolog_page() {
 /**
  * wlm_autolog_form: autmatikus log kiiratas form
  */
-function wlm_autolog_form($form, &$form_state, $def, $refresh) {
+function wlm_autolog_form($form, &$form_state, $def) {
 	// Kapcsolodas az SQL szerverhez
 	db_set_active('wlm');
 
@@ -318,7 +318,7 @@ function wlm_autolog_form($form, &$form_state, $def, $refresh) {
 		'#type' => 'fieldset',
 		'#title' => t('Auto Log Settings'),
 		'#collapsible' => TRUE,
-		'#collapsed' => $refresh,
+		'#collapsed' => $def['refresh'],
 		'#prefix' => '',
 		'#suffix' => '',
 	);
@@ -1012,8 +1012,8 @@ function theme_wlm_autolog($variables) {
 
 	$output = '';
 	$output .= drupal_render($form);
-	if ($refresh) {
-		drupal_add_http_header('Refresh', $refresh.';');
+	if ($refresh['refresh']) {
+		drupal_add_http_header('Refresh', $refresh['rtime'].';');
 
 		$output .= _wlm_get_table($rows, 'wlm_log');
 	}
