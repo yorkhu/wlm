@@ -768,16 +768,7 @@ function wlm_template_add($form, &$form_state) {
 function wlm_template_add_submit($form, &$form_state) {
 	global $user;
 
-	$def = _wlm_get_default();
-
-	$keys = array("host", "facility", "priority", "date", "date2", "time", "time2",
-								"msg1_not", "msg1", "msg2_op", "msg2_not", "msg2", "msg3_op", "msg3_not", "msg3",
-								"limit", "orderby", "format");
-	foreach ($keys as $key) {
-		if ($def[$key] != $form_state['values'][$key]) {
-			$action[$key] = $form_state['values'][$key];
-		}
-	}
+	$action = _wlm_get_action($form_state);
 
 	if (!user_access('administer wlm')) {
 		$form_state['values']['public'] = 0;
@@ -913,15 +904,7 @@ function wlm_template_edit($form, &$form_state, $wid) {
 function wlm_template_edit_submit($form, &$form_state) {
 	global $user;
 
-	$def = _wlm_get_default();
-	$keys = array("host", "facility", "priority", "date", "date2", "time", "time2",
-								"msg1_not", "msg1", "msg2_op", "msg2_not", "msg2", "msg3_op", "msg3_not", "msg3",
-								"limit", "orderby", "format");
-	foreach ($keys as $key) {
-		if ($def[$key] != $form_state['values'][$key]) {
-			$action[$key] = $form_state['values'][$key];
-		}
-	}
+	$action = _wlm_get_action($form_state);
 
 	$query = db_update('wlm_search_template');
 	$query->fields(
@@ -1086,6 +1069,7 @@ function _wlm_get_default($links = array(), $def = array()) {
 		$def['msg2_not'] = '0';	$def['msg2'] = '';	$def['msg3_op'] = '0';
 		$def['msg3_not'] = '0';	$def['msg3'] = '';
 		$def['limit'] = '100';	$def['orderby'] = 'DESC';	$def['format'] = '1';
+		$def['label'] = '';
 	}
 	// Alapertelemezett ertekek felul irasa a link parameter alapjan.
 	if (count($links)) {
@@ -1118,9 +1102,7 @@ function _wlm_get_default($links = array(), $def = array()) {
 function _wlm_get_link($def, $values) {
 	// alapertelmezettol eltero ertekbol csinal linket
 	$link = '';
-	$keys = array("host", "facility", "priority", "date", "date2", "time", "time2",
-								"msg1_not", "msg1", "msg2_op", "msg2_not", "msg2", "msg3_op", "msg3_not", "msg3",
-								"rtime", "limit", "orderby", "format");
+	$keys = _wlm_get_key();
 
 	foreach ($keys as $key) {
 		if (array_key_exists($key, $values)) {
@@ -1382,6 +1364,39 @@ function _wlm_get_rows($result, $format) {
 
 	return $rows;
 } // function _wlm_get_rows()
+
+
+/**
+ * A adatok tarolasahoz hasznalt kulcsszavakkal ter vissza
+ * @return a kulcsszavak tombje
+ */
+function _wlm_get_key() {
+	return array(
+		"host", "facility", "priority", "date", "date2", "time", "time2",
+		"msg1_not", "msg1", "msg2_op", "msg2_not", "msg2", "msg3_op", "msg3_not", "msg3",
+		"rtime", "limit", "orderby", "format"
+	);
+} // function _wlm_get_key()
+
+
+/**
+ * Az elmentendo template adatokkal ter vissza
+ * @param $form_state
+ * @return $action
+ */
+function _wlm_get_action($form_state) {
+	$def = _wlm_get_default();
+
+	$keys = _wlm_get_key();
+
+	foreach ($keys as $key) {
+		if ($def[$key] != $form_state['values'][$key]) {
+			$action[$key] = $form_state['values'][$key];
+		}
+	}
+
+	return $action;
+} // function _wlm_get_action()
 
 
 /**
