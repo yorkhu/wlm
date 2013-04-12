@@ -803,20 +803,13 @@ function wlm_template_add_submit($form, &$form_state) {
 function wlm_template_edit($form, &$form_state, $wid) {
 	global $user;
 
-	if (user_access('administer wlm')) {
-		$query = db_select('wlm_search_template', 'w');
-		$query
-		  ->fields('w', array('label', 'action', 'public'))
-		  ->condition('wid', $wid);
-		$result = $query->execute();
-	} else {
-		$query = db_select('wlm_search_template', 'w');
-		$query
-		  ->fields('w', array('label', 'action', 'public'))
-		  ->condition('uid', $user->uid)
-		  ->condition('wid', $wid);
-		$result = $query->execute();
+	$query = db_select('wlm_search_template', 'w');
+	$query->fields('w', array('label', 'action', 'public'));
+	if (!user_access('administer wlm')) {
+		$query->condition('uid', $user->uid);
 	}
+	$query->condition('wid', $wid);
+	$result = $query->execute();
 
 	if ($line = $result->fetchAssoc()) {
 		// Kapcsolodas az SQL szerverhez
@@ -930,26 +923,20 @@ function wlm_template_edit_submit($form, &$form_state) {
 		}
 	}
 
-	if (user_access('administer wlm')) {
-		db_update('wlm_search_template')
-		  ->fields(array(
-		    'label' => $form_state['values']['label'],
-		    'action' => serialize($action),
-		    'public' => $form_state['values']['public'],
-		  ))
-		  ->condition('wid', $form_state['values']['wid'])
-		  ->execute();
-	} else {
-		db_update('wlm_search_template')
-		  ->fields(array(
-		    'label' => $form_state['values']['label'],
-		    'action' => serialize($action),
-		    'public' => $form_state['values']['public'],
-		  ))
-		  ->condition('uid', $user->uid)
-		  ->condition('wid', $form_state['values']['wid'])
-		  ->execute();
+	$query = db_update('wlm_search_template');
+	$query->fields(
+	  array(
+		  'label' => $form_state['values']['label'],
+		  'action' => serialize($action),
+		  'public' => $form_state['values']['public'],
+	  )
+	);
+	if (!user_access('administer wlm')) {
+		$query->condition('uid', $user->uid);
 	}
+	$query
+		->condition('wid', $form_state['values']['wid'])
+		->execute();
 
 	$form_state['redirect'] = 'wlm/template';
 }  // function wlm_template_edit_submit()
@@ -962,20 +949,13 @@ function wlm_template_edit_submit($form, &$form_state) {
 function wlm_template_delete_confirm($form, &$form_state, $wid) {
 	global $user;
 
-	if (user_access('administer wlm')) {
-		$query = db_select('wlm_search_template', 'w');
-		$query
-		  ->fields('w', array('wid', 'label'))
-		  ->condition('wid', $wid);
-		$result = $query->execute();
-	} else {
-		$query = db_select('wlm_search_template', 'w');
-		$query
-		  ->fields('w', array('wid', 'label'))
-		  ->condition('uid', $user->uid)
-		  ->condition('wid', $wid);
-		$result = $query->execute();
+	$query = db_select('wlm_search_template', 'w');
+	$query->fields('w', array('wid', 'label'));
+	$query->condition('wid', $wid);
+	if (!user_access('administer wlm')) {
+		$query->condition('uid', $user->uid);
 	}
+	$result = $query->execute();
 
 	if ($row = $result->fetchAssoc()) {
 		$form['wid'] = array('#type' => 'value', '#value' => $wid);
@@ -1338,7 +1318,10 @@ function _wlm_get_form($form_values, $def) {
 
 
 /**
- *
+ * A megjelenitendo tablazatot generalja le.
+ * @param $rows a tablazatnak a sorai
+ * @param $id melyik fejlec kell eppen
+ * @return $output a tablazat soraival ter vissza
  */
 function _wlm_get_table($rows, $id) {
 	$output = '<div id="'.$id.'">';
@@ -1365,7 +1348,7 @@ function _wlm_get_table($rows, $id) {
 	$output .= '</div>';
 
 	return $output;
-}
+} // function _wlm_get_table()
 
 
 /**
