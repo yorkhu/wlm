@@ -1099,7 +1099,9 @@ function _wlm_get_default($links = array(), $def = array()) {
 				$def[$key] = $link;
 				$prev_key = $key;
 			} else {
-				 $def[$prev_key] .= '/'.$value;
+				if ($prev_key != '') {
+					$def[$prev_key] .= '/'.$value;
+				}
 			}
 		}
 	}
@@ -1119,17 +1121,24 @@ function _wlm_get_link($def, $values) {
 	$keys = array("host", "facility", "priority", "date", "date2", "time", "time2",
 								"msg1_not", "msg1", "msg2_op", "msg2_not", "msg2", "msg3_op", "msg3_not", "msg3",
 								"rtime", "limit", "orderby", "format");
+
 	foreach ($keys as $key) {
-		if ( is_array($values[$key]) ) {
-			if ( !(($values[$key][0] == '*') || ($values[$key][0] == 'all')) && ($values[$key] != '') ) {
+		if (array_key_exists($key, $values)) {
+			if (is_array($values[$key])) {
 				$link .= '/' . $key . '|' . implode('+', $values[$key]);
-			}
-		} else {
-			if ( ($def[$key] != $values[$key]) && ($values[$key] != '') ) {
-				$link .= '/'.$key.'|'.$values[$key];
+			} else {
+				if (array_key_exists($key, $def)) {
+					$def_value = $def[$key];
+				} else {
+					$def_value = '';
+				}
+				if ($def_value != $values[$key] && $values[$key] != '') {
+					$link .= '/'.$key.'|'.$values[$key];
+				}
 			}
 		}
 	}
+
 	return $link;
 } // function _wlm_get_link()
 
@@ -1358,6 +1367,8 @@ function _wlm_get_table($rows, $id) {
  * @return $rows a tablazat sorai
  */
 function _wlm_get_rows($result, $format) {
+	$rows = array();
+
 	foreach ($result as $row) {
 		$rows[] = array(
 			array('data' => $row->seq, 'class' => 'wlm_seq'),
