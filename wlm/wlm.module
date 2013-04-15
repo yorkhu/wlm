@@ -647,11 +647,15 @@ function wlm_template() {
 			$public = t('No');
 		}
 		$action = unserialize($row->action);
-		if ($action['date'] != '') {
-			$action['date'] = _wlm_date_change($action['date']);
+		if (array_key_exists('date', $action)) {
+			if ($action['date'] != '') {
+				$action['date'] = _wlm_date_change($action['date']);
+			}
 		}
-		if ($action['date2'] != '') {
-			$action['date2'] = _wlm_date_change($action['date2']);
+		if (array_key_exists('date2', $action)) {
+			if ($action['date2'] != '') {
+				$action['date2'] = _wlm_date_change($action['date2']);
+			}
 		}
 		$link = _wlm_get_link($def, $action);
 
@@ -1069,7 +1073,7 @@ function _wlm_get_default($links = array(), $def = array()) {
 		$def['msg2_not'] = '0';	$def['msg2'] = '';	$def['msg3_op'] = '0';
 		$def['msg3_not'] = '0';	$def['msg3'] = '';
 		$def['limit'] = '100';	$def['orderby'] = 'DESC';	$def['format'] = '1';
-		$def['label'] = '';
+		$def['label'] = ''; $def['rtime'] = '60';
 	}
 	// Alapertelemezett ertekek felul irasa a link parameter alapjan.
 	if (count($links)) {
@@ -1390,8 +1394,10 @@ function _wlm_get_action($form_state) {
 	$keys = _wlm_get_key();
 
 	foreach ($keys as $key) {
-		if ($def[$key] != $form_state['values'][$key]) {
-			$action[$key] = $form_state['values'][$key];
+		if (array_key_exists($key, $form_state['values'])) {
+			if ($def[$key] != $form_state['values'][$key]) {
+				$action[$key] = $form_state['values'][$key];
+			}
 		}
 	}
 
