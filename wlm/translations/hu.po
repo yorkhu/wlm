@@ -103,7 +103,7 @@ msgstr "Keresés a régi rendszer naplókban..."
 
 #: wlm.module:186
 msgid "Use and create search template..."
-msgstr ""
+msgstr "Keresési sablon létrehozása és felhasználása..."
 
 #: wlm.module:237
 msgid "Log Type"
