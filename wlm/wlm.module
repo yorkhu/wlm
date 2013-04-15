@@ -177,6 +177,7 @@ function wlm_menu() {
 
 /**
  * Implementation of hook_theme()
+ * @return tomb
  */
 function wlm_theme($existing, $type, $theme, $path) {
 	return array(
@@ -216,6 +217,7 @@ function wlm_theme($existing, $type, $theme, $path) {
 
 /**
  * Roviden mit tudnak a menuk.
+ * @return theme fuggveny
  */
 function wlm_all() {
 	return theme('wlm_all');
@@ -224,6 +226,7 @@ function wlm_all() {
 
 /**
  * wlm_autolog_page: autmatikus log kiiratas
+ * @return build tomb, amiben a tablazat megjelenitesehez vannak infok
  */
 function wlm_autolog_page() {
 	$links = func_get_args();
@@ -293,6 +296,10 @@ function wlm_autolog_page() {
 
 /**
  * wlm_autolog_form: autmatikus log kiiratas form
+ * @param $form
+ * @param $form_state
+ * @param $def megjeleniteshez szukseges ertekek
+ * @return $form az oldal megjelenitesehez szukseges adatotkkal ter vissza
  */
 function wlm_autolog_form($form, &$form_state, $def) {
 	// Kapcsolodas az SQL szerverhez
@@ -378,6 +385,8 @@ function wlm_autolog_form($form, &$form_state, $def) {
 
 /**
  * wlm_autolog_form_submit: autolog submit hook
+ * @param $form
+ * @param $form_state
  */
 function wlm_autolog_form_submit($form, &$form_state) {
 	if ($form_state['values']['host'] != '') {
@@ -389,6 +398,9 @@ function wlm_autolog_form_submit($form, &$form_state) {
 
 /**
  * wlm_search_page: Log kereses form kiiratasa.
+ * @param $form
+ * @param $form_state
+ * @return $form az oldal megjelenitesehez szukseges adatotkkal ter vissza
  */
 function wlm_search_page($form, &$form_state) {
 	$links = $form_state['build_info']['args'];
@@ -409,6 +421,8 @@ function wlm_search_page($form, &$form_state) {
 
 /**
  * wlm_search_page_submit: Kereses, atdobb a kereses oldalra.
+ * @param $form
+ * @param $form_state
  */
 function wlm_search_page_submit($form, &$form_state) {
 	if ($form_state['values']['host'] != '') {
@@ -420,6 +434,7 @@ function wlm_search_page_submit($form, &$form_state) {
 
 /**
  * wlm_log: kereses eredmenyet keszit elo kiiratasra.
+ * @return build tomb, amiben a tablazat megjelenitesehez vannak infok
  */
 function wlm_log() {
 	$links = func_get_args();
@@ -447,6 +462,7 @@ function wlm_log() {
 
 /**
  * wlm_oldlogsearch: kereses a regi logokban
+ * @return build tomb, amiben a tablazat megjelenitesehez vannak infok
  */
 function wlm_oldlogsearch() {
 	// Kapcsolodas az SQL szerverhez
@@ -479,6 +495,10 @@ function wlm_oldlogsearch() {
 
 /**
  * wlm_oldlogsearch: kereses a regi logokban
+ * @param $form
+ * @param $form_state
+ * @param $db_name az adatbazis neve
+ * @return $form az oldal megjelenitesehez szukseges adatotkkal ter vissza
  */
 function wlm_oldlogsearch_form($form, &$form_state, $db_name) {
 	$links = func_get_args();
@@ -510,6 +530,8 @@ function wlm_oldlogsearch_form($form, &$form_state, $db_name) {
 
 /**
  * wlm_oldlogsearch_form_submit
+ * @param $form
+ * @param $form_state
  */
 function wlm_oldlogsearch_form_submit($form, &$form_state) {
 		$def = _wlm_get_default();
@@ -519,6 +541,7 @@ function wlm_oldlogsearch_form_submit($form, &$form_state) {
 
 /**
  * wlm_oldlog: kereses a regi logban
+ * @return build tomb, amiben a tablazat megjelenitesehez vannak infok
  */
 function wlm_oldlog() {
 	$links = func_get_args();
@@ -549,6 +572,7 @@ function wlm_oldlog() {
 
 /**
  * wlm_template: Kereses minta/sablon menu
+ * @return build tomb, amiben a tablazat megjelenitesehez vannak infok
  */
 function wlm_template() {
 	global $user;
@@ -613,6 +637,9 @@ function wlm_template() {
 
 /**
  * wlm_template_add: Kereses sablon hozza adasa
+ * @param $form
+ * @param $form_state
+ * @return $form az oldal megjelenitesehez szukseges adatotkkal ter vissza
  */
 function wlm_template_add($form, &$form_state) {
 	$def = _wlm_get_default();
@@ -631,6 +658,8 @@ function wlm_template_add($form, &$form_state) {
 
 /**
  * wlm_template_add_submit: Kereses sablon adatbazisba felvitele
+ * @param $form
+ * @param $form_state
  */
 function wlm_template_add_submit($form, &$form_state) {
 	global $user;
@@ -656,7 +685,10 @@ function wlm_template_add_submit($form, &$form_state) {
 
 /**
  * wlm_template_edit: Kereses sablon szerkesztese
+ * @param $form
+ * @param $form_state
  * @param $wid template azonositoja
+ * @return $form az oldal megjelenitesehez szukseges adatotkkal ter vissza
  */
 function wlm_template_edit($form, &$form_state, $wid) {
 	global $user;
@@ -703,6 +735,8 @@ function wlm_template_edit($form, &$form_state, $wid) {
 
 /**
  * wlm_template_edit_submit: Kereses sablon modositas adatbazisba irasa
+ * @param $form
+ * @param $form_state
  */
 function wlm_template_edit_submit($form, &$form_state) {
 	global $user;
@@ -730,7 +764,10 @@ function wlm_template_edit_submit($form, &$form_state) {
 
 /**
  * wlm_template_delete_confirm: Kereses sablon torles megerositese
+ * @param $form
+ * @param $form_state
  * @param $wid template id
+ * @return megerositest kero oldallal ter vissza
  */
 function wlm_template_delete_confirm($form, &$form_state, $wid) {
 	global $user;
@@ -756,6 +793,8 @@ function wlm_template_delete_confirm($form, &$form_state, $wid) {
 
 /**
  * wlm_template_delete_confirm_submit: Kereses sablon torles megerositve
+ * @param $form
+ * @param $form_state
  */
 function wlm_template_delete_confirm_submit($form, &$form_state) {
 	db_delete('wlm_search_template')
@@ -768,7 +807,10 @@ function wlm_template_delete_confirm_submit($form, &$form_state) {
 
 /* ========== Theme functions =========*/
 
-
+/**
+ * theme_wlm_all: egy rovid osszefoglalo oldal
+ * @return $output adott oldallal ter vissza
+ */
 function theme_wlm_all() {
 	$output = '<dl>';
 	$output .= '<dt>'.l(t('Auto Log'), 'wlm/autolog').':</dt>';
@@ -790,6 +832,7 @@ function theme_wlm_all() {
  * @param $form - kiirando form
  * @param $rows - tablazat sorai
  * @param $refresh - 0/1 ha volt frissites akkor: 1
+ * @return $output adott oldallal ter vissza
  */
 function theme_wlm_autolog($variables) {
 	$rows = $variables['rows'];
@@ -810,6 +853,8 @@ function theme_wlm_autolog($variables) {
 
 /**
  * theme_wlm_template: Kereses sablon kiiratasa
+ * @param $rows a tablazat sorai
+ * @return $output adott oldallal ter vissza
  */
 function theme_wlm_template($variables) {
 	$rows = $variables['rows'];
@@ -827,6 +872,8 @@ function theme_wlm_template($variables) {
 
 /**
  * theme_wlm_log: Logok kiiratasa
+ * @param $rows a tablazat sorai
+ * @return $output adott oldallal ter vissza
  */
 function theme_wlm_log($variables) {
 	$rows = $variables['rows'];
@@ -841,6 +888,8 @@ function theme_wlm_log($variables) {
 
 /**
  * wlm_oldlogsearch: kereses a regi logokban
+ * @param $dbs regebbi adatok tablai
+ * @return $output adott oldallal ter vissza
  */
 function theme_wlm_oldlogsearch($variables) {
 	$dbs = $variables['dbs'];
@@ -930,8 +979,10 @@ function _wlm_get_link($def, $values) {
 
 /**
  * _wlm_get_form:
- * @param $form_values - tartalmazza a form mezok ertekeit
+ * @param $from - melyik fuggveny hivta meg
+ * @param $db_name - melyik tablat kell hasznalni
  * @param $def - tartalmazza a form alapertelmezett ertekeit
+ * @param $button_name - milyen neve legyen a gombnak
  * @return form valtozot adja vissza
  */
 function _wlm_get_form($variables) {
