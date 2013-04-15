@@ -391,54 +391,17 @@ function wlm_autolog_form_submit($form, &$form_state) {
  * wlm_search_page: Log kereses form kiiratasa.
  */
 function wlm_search_page($form, &$form_state) {
-
 	$links = $form_state['build_info']['args'];
-
-	// Kapcsolodas az SQL szerverhez
-	db_set_active('wlm');
-
-	$query = db_select('cache', 'c');
-  $query
-    ->fields('c')
-    ->orderBy('value', 'ASC');
-  $result = $query->execute();
-
-	// Vissza valtas az alapertelmezett SQL szerverhez
-	db_set_active();
-
-	$form_values['host']['*'] = $form_values['facility']['*'] = t('All');
-	$form_values['priority']['*'] = $form_values['date']['*'] = t('All');
-
-	foreach ($result as $row) {
-		$form_values[$row->id][$row->value] = $row->value;
-	}
-
-	array_multisort($form_values['date'], SORT_DESC);
 
 	$def = _wlm_get_default($links);
 
-	$form_values['times']['*'] = t('All');
-	for ($i = 0; $i < 24; $i++) {
-		if ($i < 10) {
-			$form_values['times']['0'.$i] = '0'.$i.':00';
-		} else {
-			$form_values['times'][$i] = $i.':00';
-		}
-	}
-
-	$form_values['chk_opt'] = array('0' => t('And'), '1' => t('Or'));
-
-	$form_values['limits'] = array(25 => 25, 50 => 50, 100 => 100, 250 => 250, 500 => 500, 1000 => 1000);
-
-	$form_values['orderby']['ASC'] = t('ASC');
-	$form_values['orderby']['DESC'] = t('DESC');
-	$form_values['format'] = array(t("Wrap On"), t("Wrap Off"), t("Text Mode"));
-
-	$form = _wlm_get_form($form_values, $def);
-	$form['submit'] = array(
-		'#type' => 'submit',
-		'#value' => t('Search'),
+	$variables = array(
+		'from' => 'wlm_search_page',
+		'db_name' => 'cache',
+		'def' => $def,
+		'button_name' => t('Search'),
 	);
+	$form = _wlm_get_form($variables);
 
 	return $form;
 }  // function wlm_search_page()
@@ -486,7 +449,6 @@ function wlm_log() {
  * wlm_oldlogsearch: kereses a regi logokban
  */
 function wlm_oldlogsearch() {
-
 	// Kapcsolodas az SQL szerverhez
 	db_set_active('wlm');
 
@@ -519,60 +481,24 @@ function wlm_oldlogsearch() {
  * wlm_oldlogsearch: kereses a regi logokban
  */
 function wlm_oldlogsearch_form($form, &$form_state, $db_name) {
-
 	$links = func_get_args();
 	array_shift($links);
 	array_shift($links);
 
 	if ($db_name) {
-
-		// Kapcsolodas az SQL szerverhez
-		db_set_active('wlm');
-
-		$query = db_select('cache_'.$db_name, 'c');
-		$query
-		  ->fields('c')
-		  ->orderBy('value', 'ASC');
-		$result = $query->execute();
-
-		// Vissza valtas az alapertelmezett SQL szerverhez
-		db_set_active();
-
-		$form_values['host']['*'] = $form_values['facility']['*'] = t('All');
-		$form_values['priority']['*'] = $form_values['date']['*'] = t('All');
-
-		foreach ($result as $row) {
-			$form_values[$row->id][$row->value] = $row->value;
-		}
-		array_multisort($form_values['date'], SORT_DESC);
-
 		$def = _wlm_get_default($links);
 
-		$form_values['times']['*'] = t('All');
-		for ($i = 0; $i < 24; $i++) {
-			if ($i < 10) {
-				$form_values['times']['0'.$i] = '0'.$i.':00';
-			} else {
-				$form_values['times'][$i] = $i.':00';
-			}
-		}
+		$variables = array(
+			'from' => 'wlm_oldlogsearch',
+			'db_name' => 'cache_'.$db_name,
+			'def' => $def,
+			'button_name' => t('Search'),
+ 		);
+ 		$form = _wlm_get_form($variables);
 
-		$form_values['chk_opt'] = array('0' => t('And'), '1' => t('Or'));
-
-		$form_values['limits'] = array(25 => 25, 50 => 50, 100 => 100, 250 => 250, 500 => 500, 1000 => 1000);
-
-		$form_values['orderby']['ASC'] = t('ASC');
-		$form_values['orderby']['DESC'] = t('DESC');
-		$form_values['format'] = array(t("Wrap On"), t("Wrap Off"), t("Text Mode"));
-
-		$form = _wlm_get_form($form_values, $def);
 		$form['db_name'] = array(
 			'#type' => 'value',
 			'#value' => $db_name,
-		);
-		$form['submit'] = array(
-			'#type' => 'submit',
-			'#value' => t('Search')
 		);
 
 		return $form;
@@ -646,6 +572,7 @@ function wlm_template() {
 		} else {
 			$public = t('No');
 		}
+
 		$action = unserialize($row->action);
 		if (array_key_exists('date', $action)) {
 			if ($action['date'] != '') {
@@ -675,6 +602,7 @@ function wlm_template() {
 			array('data' => $acces ? l(t('delete'), 'wlm/template/delete/'.$row->wid) : '', 'class' => 'wlm_del'),
 		);
 	}
+
 	$build['wlm_template'] = array(
 	  '#theme' => 'wlm_template',
 	  '#rows' => $rows,
@@ -687,80 +615,15 @@ function wlm_template() {
  * wlm_template_add: Kereses sablon hozza adasa
  */
 function wlm_template_add($form, &$form_state) {
-
-	// Kapcsolodas az SQL szerverhez
-	db_set_active('wlm');
-
-	$query = db_select('cache', 'c');
-  $query
-    ->fields('c')
-    ->condition('id', 'date', '!=')
-    ->orderBy('value', 'ASC');
-  $result = $query->execute();
-
-	// // Vissza valtas az alapertelmezett SQL szerverhez
-	db_set_active();
-
-	$form_values['host']['*'] = $form_values['facility']['*'] = t('All');
-	$form_values['priority']['*'] = $form_values['date']['*'] = t('All');
-	$form_values['date']["today"] = t('Today');
-	foreach ($result as $row) {
-		$form_values[$row->id][$row->value] = $row->value;
-	}
-
-	for ($i = -1; $i >= -31; $i--) {
-		$form_values['date'][$i] = $i.' '.t('Day');
-	}
-
 	$def = _wlm_get_default();
 
-	$form_values['times']['*'] = t('All');
-	for ($i = 0; $i < 24; $i++) {
-		if ($i < 10) {
-			$form_values['times']['0'.$i] = '0'.$i.':00';
-		} else {
-			$form_values['times'][$i] = $i.':00';
-		}
-	}
-
-	$form_values['chk_opt'] = array('0' => t('And'), '1' => t('Or'));
-
-	$form_values['limits'] = array(25 => 25, 50 => 50, 100 => 100, 250 => 250, 500 => 500, 1000 => 1000);
-
-	$form_values['orderby']['ASC'] = t('ASC');	$form_values['orderby']['DESC'] = t('DESC');
-	$form_values['format'] = array(t("Wrap On"), t("Wrap Off"), t("Text Mode"));
-
-	$form['desc'] = array(
-		'#type' => 'fieldset',
-		'#title' => t('Label').':',
-		'#collapsible' => TRUE,
-		'#collapsed' => FALSE,
-		'#prefix' => '<div id="wlm-label">',
-		'#suffix' => '</div>',
-	);
-	$form['desc']['label'] = array(
-		'#type' => 'textfield',
-		'#default_value' => $def['label'],
-		'#size' => 60,
-		'#maxlength' => 128,
-		'#required' => TRUE,
-	);
-
-	$form = array_merge($form, _wlm_get_form($form_values, $def));
-	if (user_access('administer wlm')) {
-		$form['other']['public'] = array(
-			'#type' => 'select',
-			'#title' => t('Public'),
-			'#default_value' => '',
-			'#options' => array(t('No'), t('Yes')),
-			'#prefix' => '<div class="wlm-left">',
-			'#suffix' => '</div>',
-		);
-	}
-	$form['submit'] = array(
-		'#type' => 'submit',
-		'#value' => t('Save'),
-	);
+	$variables = array(
+		'from' => 'wlm_template_add',
+		'db_name' => 'cache',
+		'def' => $def,
+		'button_name' => t('Save'),
+ 	);
+ 	$form = _wlm_get_form($variables);
 
 	return $form;
 } // function wlm_template_add()
@@ -807,92 +670,28 @@ function wlm_template_edit($form, &$form_state, $wid) {
 	$result = $query->execute();
 
 	if ($line = $result->fetchAssoc()) {
-		// Kapcsolodas az SQL szerverhez
-		db_set_active('wlm');
-
-		$query = db_select('cache', 'c');
-		$query
-		  ->fields('c')
-		  ->condition('id', 'date', '!=')
-		  ->orderBy('value', 'ASC');
-		$result = $query->execute();
-
-		// Vissza valtas az alapertelmezett SQL szerverhez
-		db_set_active();
-
-		$form_values['host']['*'] = $form_values['facility']['*'] = t('All');
-		$form_values['priority']['*'] = $form_values['date']['*'] = t('All');
-		$form_values['date']["today"] = t('Today');
-		foreach ($result as $row) {
-			$form_values[$row->id][$row->value] = $row->value;
-		}
-
-		for ($i = -1; $i >= -31; $i--) {
-			$form_values['date'][$i] = $i.' '.t('Day');
-		}
-
 		$def = _wlm_get_default();
 
 		$def['label'] = $line['label'];
+		$def['public'] = $line['public'];
 
 		$values = unserialize($line['action']);
 		foreach ($values as $key => $value) {
 			$def[$key] = $value;
 		}
 
-		$form_values['times']['*'] = t('All');
-		for ($i = 0; $i < 24; $i++) {
-			if ($i < 10) {
-				$form_values['times']['0'.$i] = '0'.$i.':00';
-			} else {
-				$form_values['times'][$i] = $i.':00';
-			}
-		}
-
-		$form_values['chk_opt'] = array('0' => t('And'), '1' => t('Or'));
-
-		$form_values['limits'] = array(25 => 25, 50 => 50, 100 => 100, 250 => 250, 500 => 500, 1000 => 1000);
-
-		$form_values['orderby']['ASC'] = t('ASC');
-		$form_values['orderby']['DESC'] = t('DESC');
-		$form_values['format'] = array(t("Wrap On"), t("Wrap Off"), t("Text Mode"));
-
-		$form['desc'] = array(
-			'#type' => 'fieldset',
-			'#title' => t('Label').':',
-			'#collapsible' => TRUE,
-			'#collapsed' => FALSE,
-			'#prefix' => '<div id="wlm-label">',
-			'#suffix' => '</div>',
+		$variables = array(
+			'from' => 'wlm_template_edit',
+			'db_name' => 'cache',
+			'def' => $def,
+			'button_name' => t('Save'),
 		);
-		$form['desc']['label'] = array(
-			'#type' => 'textfield',
-			'#default_value' => $def['label'],
-			'#size' => 60,
-			'#maxlength' => 128,
-			'#required' => TRUE,
-		);
+		$form = _wlm_get_form($variables);
 
-		$form = array_merge($form, _wlm_get_form($form_values, $def));
 
 		$form['wid'] = array(
 			'#type' => 'value',
 			'#value' => $wid,
-		);
-
-		if (user_access('administer wlm')) {
-			$form['other']['public'] = array(
-				'#type' => 'select',
-				'#title' => t('Public'),
-				'#default_value' => $line['public'],
-				'#options' => array( t('No'), t('Yes') ),
-				'#prefix' => '<div class="wlm-left">',
-				'#suffix' => '</div>',
-			);
-		}
-		$form['submit'] = array(
-			'#type' => 'submit',
-			'#value' => t('Save'),
 		);
 
 		return $form;
@@ -1073,7 +872,7 @@ function _wlm_get_default($links = array(), $def = array()) {
 		$def['msg2_not'] = '0';	$def['msg2'] = '';	$def['msg3_op'] = '0';
 		$def['msg3_not'] = '0';	$def['msg3'] = '';
 		$def['limit'] = '100';	$def['orderby'] = 'DESC';	$def['format'] = '1';
-		$def['label'] = ''; $def['rtime'] = '60';
+		$def['label'] = ''; $def['public'] = ''; $def['rtime'] = '60';
 	}
 	// Alapertelemezett ertekek felul irasa a link parameter alapjan.
 	if (count($links)) {
@@ -1135,7 +934,81 @@ function _wlm_get_link($def, $values) {
  * @param $def - tartalmazza a form alapertelmezett ertekeit
  * @return form valtozot adja vissza
  */
-function _wlm_get_form($form_values, $def) {
+function _wlm_get_form($variables) {
+	$from = $variables['from'];
+	$db_name = $variables['db_name'];
+	$def = $variables['def'];
+	$button_name = $variables['button_name'];
+
+	$form_values['host']['*'] = $form_values['facility']['*'] = t('All');
+	$form_values['priority']['*'] = $form_values['date']['*'] = t('All');
+
+	if ($from == 'wlm_template_add' || $from == 'wlm_template_edit') {
+		$form_values['date']['today'] = t('Today');
+
+		for ($i = -1; $i >= -31; $i--) {
+			$form_values['date'][$i] = $i.' '.t('Day');
+		}
+	}
+
+	// Kapcsolodas az SQL szerverhez
+	db_set_active('wlm');
+
+	$query = db_select($db_name, 'c');
+  $query->fields('c');
+  if ($from == 'wlm_template_add' || $from == 'wlm_template_edit') {
+  	$query->condition('id', 'date', '!=');
+  }
+  $query->orderBy('value', 'ASC');
+  $result = $query->execute();
+
+	// Vissza valtas az alapertelmezett SQL szerverhez
+	db_set_active();
+
+	foreach ($result as $row) {
+		$form_values[$row->id][$row->value] = $row->value;
+	}
+
+	if ($from == 'wlm_search_page' || $from == 'wlm_oldlogsearch') {
+		array_multisort($form_values['date'], SORT_DESC);
+	}
+
+	$form_values['times']['*'] = t('All');
+	for ($i = 0; $i < 24; $i++) {
+		if ($i < 10) {
+			$form_values['times']['0'.$i] = '0'.$i.':00';
+		} else {
+			$form_values['times'][$i] = $i.':00';
+		}
+	}
+
+	$form_values['chk_opt'] = array('0' => t('And'), '1' => t('Or'));
+
+	$form_values['limits'] = array(25 => 25, 50 => 50, 100 => 100, 250 => 250, 500 => 500, 1000 => 1000);
+
+	$form_values['orderby']['ASC'] = t('ASC');
+	$form_values['orderby']['DESC'] = t('DESC');
+
+	$form_values['format'] = array(t("Wrap On"), t("Wrap Off"), t("Text Mode"));
+
+	if ($from == 'wlm_template_add' || $from == 'wlm_template_edit') {
+		$form['desc'] = array(
+			'#type' => 'fieldset',
+			'#title' => t('Label').':',
+			'#collapsible' => TRUE,
+			'#collapsed' => FALSE,
+			'#prefix' => '<div id="wlm-label">',
+			'#suffix' => '</div>',
+		);
+		$form['desc']['label'] = array(
+			'#type' => 'textfield',
+			'#default_value' => $def['label'],
+			'#size' => 60,
+			'#maxlength' => 128,
+			'#required' => TRUE,
+		);
+	}
+
 	$form['log'] = array(
 		'#type' => 'fieldset',
 		'#title' => t('Log Type').':',
@@ -1308,6 +1181,23 @@ function _wlm_get_form($form_values, $def) {
 		'#prefix' => '<div class="wlm-left">',
 		'#suffix' => '</div>',
 	);
+
+	if (user_access('administer wlm') && ($from == 'wlm_template_add' || $from == 'wlm_template_edit')) {
+		$form['other']['public'] = array(
+			'#type' => 'select',
+			'#title' => t('Public'),
+			'#default_value' => $def['public'],
+			'#options' => array(t('No'), t('Yes')),
+			'#prefix' => '<div class="wlm-left">',
+			'#suffix' => '</div>',
+		);
+	}
+
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => $button_name,
+	);
+
 	return $form;
 } // function _wlm_get_form()
 
@@ -1411,7 +1301,6 @@ function _wlm_get_action($form_state) {
  * @return sql feltetel
  */
 function _wlm_url2sql($url, $db_name) {
-
 	// Kapcsolodas az SQL szerverhez
 	db_set_active('wlm');
 
@@ -1520,7 +1409,7 @@ function _wlm_url2sql($url, $db_name) {
 
 
 /**
- *
+ * _wlm_date_change
  */
 function _wlm_date_change($date) {
 	if ($date == 'today') {
@@ -1529,4 +1418,4 @@ function _wlm_date_change($date) {
 		$date = date("Y-m-d", strtotime($date." day"));
 	}
 	return $date;
-}
+} // function _wlm_date_change()
