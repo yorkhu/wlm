@@ -11,17 +11,17 @@ A wlm tamogat minden olyan sql szervert, melyet adodbn keresztul el tud erni.
 
 1. A program hasznalatahoz szukseges csomagok:
 - syslog-ng
-- php 5.2.x
-- drupal 6.x
-- python2.3 or new
-- python2.3-dev or new (adodb telepiteshez)
+- php 5.3.x
+- drupal 7.x
+- python2.3 or newer
+- python2.3-dev or newer (adodb telepiteshez)
 - Megfelelo SQL szervert tamogato csomag, pl.: python2.3-mysqldb
 - AdoDB http://adodb.sourceforge.net/#pydownload oldalrol toltheto le.
 
 2. Kicsomagolas, elokeszuletek:
- $ tar -xvvzf wlm-0.2.0.tar.gz
+ $ tar -xvvzf wlm-0.3.0.tar.gz
  MySql adatbazis letrehozasa.
- $ cd wlm-0.2.0/docs
+ $ cd wlm-0.3.0/docs
  $ mysql -u root -p < syslog.mysql
  Ket mysql felhasznalo letrehozasat javaslom:
  - syslog felhasznalo tudja olvasni a syslog adatbazist
